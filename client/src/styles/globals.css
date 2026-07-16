@@ -1,0 +1,167 @@
+@import "tailwindcss";
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 24px rgba(34, 211, 238, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(34, 211, 238, 0.6); }
+}
+
+@theme {
+  /* === Font Sizes === */
+  --font-size-xs: 0.8125rem;
+  --font-size-sm: 0.9375rem;
+  --font-size-base: 1.125rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 1.75rem;
+  --font-size-3xl: 2rem;
+  --font-size-4xl: 2.5rem;
+
+  /* === shadcn/ui Dark Theme Tokens === */
+
+  /* Base */
+  --color-background: #09090b;
+  --color-foreground: #f4f4f5;
+
+  /* Card */
+  --color-card: #18181b;
+  --color-card-foreground: #f4f4f5;
+
+  /* Popover */
+  --color-popover: #18181b;
+  --color-popover-foreground: #f4f4f5;
+
+  /* Primary */
+  --color-primary: #3b82f6;
+  --color-primary-foreground: #ffffff;
+
+  /* Secondary */
+  --color-secondary: #64748b;
+  --color-secondary-foreground: #ffffff;
+
+  /* Muted */
+  --color-muted: #27272a;
+  --color-muted-foreground: #a1a1aa;
+
+  /* Accent */
+  --color-accent: #27272a;
+  --color-accent-foreground: #f4f4f5;
+
+  /* Destructive */
+  --color-destructive: #f43f5e;
+  --color-destructive-foreground: #ffffff;
+
+  /* Borders & Inputs */
+  --color-border: #3f3f46;
+  --color-input: #18181b;
+  --color-ring: #38bdf8;
+
+  /* Radius */
+  --radius: 0.5rem;
+
+  /* === Leaflet Popup (fuera del sistema shadcn — renderizado inline SVG) === */
+  --color-popup: #1a1a2e;
+  --color-popup-foreground: #ffffff;
+  --color-popup-muted: #9ca3af;
+  --color-popup-accent-from: #34d399;
+  --color-popup-accent-to: #14b8a6;
+  --color-popup-success: #4ade80;
+  --color-popup-warning: #fbbf24;
+}
+
+.custom-dark-popup .leaflet-popup-content-wrapper {
+  background: var(--color-popup) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+  border-radius: 14px !important;
+  padding: 0 !important;
+  overflow: hidden;
+  position: relative;
+}
+
+.custom-dark-popup .leaflet-popup-content-wrapper::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(to bottom, var(--color-popup-accent-from), var(--color-popup-accent-to));
+}
+
+.custom-dark-popup .leaflet-popup-tip {
+  background: var(--color-popup) !important;
+  box-shadow: none !important;
+}
+
+.custom-dark-popup .leaflet-popup-content {
+  margin: 0 !important;
+}
+
+@media (max-width: 767px) {
+  .custom-dark-popup .leaflet-popup-close-button {
+    display: none !important;
+  }
+}
+
+.leaflet-control-zoom {
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+  overflow: hidden;
+}
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  background: var(--color-muted) !important;
+  color: var(--color-foreground) !important;
+  border: none !important;
+  border-bottom: 1px solid var(--color-border) !important;
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  font-size: 18px !important;
+  transition: background 0.15s ease;
+}
+
+.leaflet-control-zoom-out {
+  border-bottom: none !important;
+}
+
+.leaflet-control-zoom-in:hover,
+.leaflet-control-zoom-out:hover {
+  background: var(--color-accent) !important;
+  color: var(--color-accent-foreground) !important;
+}
+
+.leaflet-control-zoom-in:active,
+.leaflet-control-zoom-out:active {
+  background: var(--color-primary) !important;
+  color: var(--color-primary-foreground) !important;
+}
+
+/* === Scrollbar === */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted-foreground);
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}

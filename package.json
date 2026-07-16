@@ -1,0 +1,19 @@
+{
+  "name": "daliz",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Daliz — Full-stack monorepo (Express + React + Vite)",
+  "scripts": {
+    "dev": "concurrently \"tsx watch server/src/server.ts\" \"pnpm --filter daliz-client dev\"",
+    "build": "tsc -p server/tsconfig.json && pnpm --filter daliz-client build",
+    "start": "node server/dist/server.js",
+    "seed": "tsx server/src/seed.ts",
+    "seed:metrics": "tsx server/src/seed-metrics.ts",
+    "lint": "pnpm --filter daliz-client lint"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "typescript": "~6.0.2",
+    "tsx": "^4.19.0"
+  }
+}

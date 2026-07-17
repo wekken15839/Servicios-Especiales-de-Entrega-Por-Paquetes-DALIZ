@@ -1,3 +1,5 @@
 {
+  "buildCommand": "npx tsc",
+  "outputDirectory": "dist",
   "installCommand": "pnpm install --frozen-lockfile"
 }

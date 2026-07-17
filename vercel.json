@@ -1,6 +1,12 @@
 {
   "buildCommand": "pnpm --filter daliz-server build",
   "installCommand": "pnpm install --frozen-lockfile",
+  "builds": [
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node"
+    }
+  ],
   "functions": {
     "api/index.js": {
       "includeFiles": "server/dist/**"

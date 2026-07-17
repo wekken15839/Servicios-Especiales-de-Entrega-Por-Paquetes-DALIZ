@@ -1,10 +1,13 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import * as helmetPkg from 'helmet';
-import * as rateLimitPkg from 'express-rate-limit';
-const helmet = helmetPkg.default;
-const rateLimit = rateLimitPkg.default;
+import { createRequire } from 'node:module';
+import type { RequestHandler } from 'express';
+
+const require = createRequire(import.meta.url);
+
+const helmet = require('helmet') as (options?: Record<string, unknown>) => RequestHandler;
+const rateLimit = require('express-rate-limit') as (options?: Record<string, unknown>) => RequestHandler;
 import pino from 'pino';
 import authRoutes from './features/auth/auth.routes.js';
 import deliveriesRoutes from './features/deliveries/deliveries.routes.js';

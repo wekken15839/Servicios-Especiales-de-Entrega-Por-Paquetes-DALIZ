@@ -1,8 +1,10 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
+import * as helmetPkg from 'helmet';
+import * as rateLimitPkg from 'express-rate-limit';
+const helmet = helmetPkg.default;
+const rateLimit = rateLimitPkg.default;
 import pino from 'pino';
 import authRoutes from './features/auth/auth.routes.js';
 import deliveriesRoutes from './features/deliveries/deliveries.routes.js';

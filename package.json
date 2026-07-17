@@ -13,6 +13,9 @@
     "migrate:pricing": "tsx server/src/migrate-pricing.ts",
     "lint": "pnpm --filter daliz-client lint"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "devDependencies": {
     "concurrently": "^9.1.0",
     "typescript": "~6.0.2",

@@ -1,13 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import { createRequire } from 'node:module';
-import type { RequestHandler } from 'express';
-
-const require = createRequire(import.meta.url);
-
-const helmet = require('helmet') as (options?: Record<string, unknown>) => RequestHandler;
-const rateLimit = require('express-rate-limit') as (options?: Record<string, unknown>) => RequestHandler;
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import pino from 'pino';
 import authRoutes from './features/auth/auth.routes.js';
 import deliveriesRoutes from './features/deliveries/deliveries.routes.js';
@@ -17,8 +12,11 @@ import clientsRoutes from './features/clients/clients.router.js';
 import fiadosRoutes from './features/fiados/fiados.routes.js';
 import settingsRoutes from './features/settings/settings.routes.js';
 import { Env } from './shared/config/env.js';
+import { initAuth } from './features/auth/auth.service.js';
 
 export function createApp(env: Env) {
+  initAuth(env);
+
   const app = express();
 
   // ---- Logger ----

@@ -1,0 +1,4 @@
+client/
+.atl/
+openspec/
+netlify.toml

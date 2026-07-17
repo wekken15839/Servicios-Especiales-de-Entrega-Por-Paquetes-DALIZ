@@ -2,8 +2,13 @@ import User, { IUserDocument } from './user.model.js';
 import jwt from 'jsonwebtoken';
 import { AuthResult } from './auth.types.js';
 import { AppError } from '../../shared/errors/app-error.js';
+import type { Env } from '../../shared/config/env.js';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback_jwt_secret';
+let secret: string;
+
+export function initAuth(env: Env): void {
+  secret = env.JWT_SECRET;
+}
 
 const formatUser = (user: IUserDocument): AuthResult => ({
   id: user._id.toString(),
@@ -53,12 +58,12 @@ export const getUserById = async (userId: string): Promise<AuthResult> => {
 };
 
 export const generateToken = (userId: string): string => {
-  return jwt.sign({ userId }, JWT_SECRET, { expiresIn: '7d' });
+  return jwt.sign({ userId }, secret, { expiresIn: '7d' });
 };
 
 export const verifyToken = (token: string): { userId: string } | null => {
   try {
-    return jwt.verify(token, JWT_SECRET) as { userId: string };
+    return jwt.verify(token, secret) as { userId: string };
   } catch {
     return null;
   }

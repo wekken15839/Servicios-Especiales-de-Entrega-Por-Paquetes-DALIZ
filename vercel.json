@@ -1,4 +1,11 @@
 {
   "buildCommand": "pnpm --filter daliz-server build",
-  "installCommand": "pnpm install --frozen-lockfile"
+  "installCommand": "pnpm install --frozen-lockfile",
+  "devCommand": "pnpm dev",
+  "functions": {
+    "api/[...route].mjs": {
+      "includeFiles": "server/dist/**",
+      "runtime": "nodejs22.x"
+    }
+  }
 }

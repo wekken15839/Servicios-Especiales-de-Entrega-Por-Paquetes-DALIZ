@@ -1,3 +1,4 @@
+import express from 'express'
 import { createApp } from './create-app.js'
 import { validateEnv } from './shared/config/env.js'
 import { connectDB } from './shared/config/db.js'

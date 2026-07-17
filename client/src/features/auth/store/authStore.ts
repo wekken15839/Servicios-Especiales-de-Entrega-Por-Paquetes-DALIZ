@@ -63,6 +63,22 @@ export const useAuthStore = create<AuthStore>((set) => ({
     }
   },
 
+  createUser: async (credentials) => {
+    set({ isLoading: true, error: null })
+
+    const result = await authService.register(credentials)
+
+    if (result.error) {
+      set({ error: result.error, isLoading: false })
+      toast.error(result.error)
+      return result.error
+    }
+
+    set({ isLoading: false })
+    toast.success(`Usuario "${credentials.username}" creado exitosamente`)
+    return null
+  },
+
   logout: () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')

@@ -16,6 +16,7 @@ export const registerUser = async (data: {
   username: string;
   password: string;
   name: string;
+  role?: string;
 }): Promise<AuthResult> => {
   const existingUser = await User.findOne({ username: data.username });
   if (existingUser) {

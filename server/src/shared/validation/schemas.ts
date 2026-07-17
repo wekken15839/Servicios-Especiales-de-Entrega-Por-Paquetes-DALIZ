@@ -4,6 +4,7 @@ export const signUpSchema = z.object({
   username: z.string().min(1, 'El username es obligatorio'),
   password: z.string().min(1, 'La contraseña es obligatoria'),
   name: z.string().min(1, 'El nombre es obligatorio'),
+  role: z.enum(['user', 'admin']).default('user'),
 });
 
 export const signInSchema = z.object({

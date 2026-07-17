@@ -32,16 +32,18 @@ export const register = async (
       });
       return;
     }
-    const { username, password, name } = parsed.data;
-    const user = await registerUser({ username, password, name });
+    const { username, password, name, role } = parsed.data;
+    const user = await registerUser({ username, password, name, role });
     const token = generateToken(user.id);
 
-    setTokenCookie(res, token);
+    if (!req.user) {
+      setTokenCookie(res, token);
+    }
 
     res.status(201).json({
       message: 'Usuario registrado exitosamente',
       user,
-      token,
+      ...(req.user ? {} : { token }),
     });
   } catch (error: any) {
     if (error.statusCode) {

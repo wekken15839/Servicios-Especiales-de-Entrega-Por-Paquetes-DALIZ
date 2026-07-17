@@ -69,7 +69,7 @@ const seed = async () => {
   console.log('\n👤 Creando admin...');
   const admin = await User.create({
     username: 'admin',
-    password: 'nomelase123.',
+    password: 'alkatrhazxc123.',
     name: 'Administrador Daliz',
     role: 'admin' as const,
   });
@@ -266,7 +266,7 @@ const seed = async () => {
   console.log('═══════════════════════════════════════════');
   console.log('');
   console.log('  👤 Usuario');
-  console.log('     admin / nomelase123.');
+  console.log('     admin / alkatrhazxc123.');
   console.log('');
   console.log('  📍 Clientes (waypoints)');
   console.log(`     ${clientDocs.length} clientes con ubicación en Aguachica`);

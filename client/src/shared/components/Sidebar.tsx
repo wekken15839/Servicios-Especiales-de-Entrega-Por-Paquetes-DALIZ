@@ -6,6 +6,7 @@ import { useMediaQuery } from '@/shared/hooks/useMediaQuery'
 import { Z } from '@/shared/constants/zIndex'
 import { NAV_ITEMS } from './NavItems'
 import { SidebarOverlay } from './SidebarOverlay'
+import { useAuth } from '@/features/auth/hooks/useAuth'
 
 const SIDEBAR_EXPANDED = 240
 const SIDEBAR_COLLAPSED = 64
@@ -18,6 +19,11 @@ export function Sidebar() {
   const collapse = useSidebar((s) => s.collapse)
   const location = useLocation()
   const isDesktop = useMediaQuery('(min-width: 1024px)')
+  const { user } = useAuth()
+
+  const visibleItems = NAV_ITEMS.filter(
+    (item) => !item.adminOnly || user?.role === 'admin'
+  )
 
   const handleNav = () => {
     if (!isDesktop) close()
@@ -55,7 +61,7 @@ export function Sidebar() {
 
       <nav className="flex-1 overflow-y-auto p-2">
         <ul className="space-y-1">
-          {NAV_ITEMS.map((item) => {
+          {visibleItems.map((item) => {
             const isActive = location.pathname === item.to
             const Icon = item.icon
 

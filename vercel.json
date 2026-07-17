@@ -1,5 +1,3 @@
 {
-  "buildCommand": "pnpm -w run build:server",
-  "outputDirectory": "dist",
   "installCommand": "pnpm install --frozen-lockfile"
 }

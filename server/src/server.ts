@@ -16,7 +16,7 @@ const PORT = env.PORT;
 async function start() {
   await connectDB();
 
-  const { createApp } = await import('./app.js');
+  const { createApp } = await import('./create-app.js');
   const { app, logger } = createApp(env);
 
   const server = app.listen(PORT, () => {

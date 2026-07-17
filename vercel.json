@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npx tsc -p server/tsconfig.json",
-  "installCommand": "pnpm install --frozen-lockfile",
-  "outputDirectory": "server/dist"
+  "buildCommand": "pnpm run build:server",
+  "outputDirectory": "server/dist",
+  "installCommand": "pnpm install --frozen-lockfile"
 }

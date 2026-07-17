@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "concurrently \"tsx watch server/src/server.ts\" \"pnpm --filter daliz-client dev\"",
     "build": "tsc -p server/tsconfig.json && pnpm --filter daliz-client build",
+    "build:server": "tsc -p server/tsconfig.json",
     "start": "node server/dist/server.js",
     "seed": "tsx server/src/seed.ts",
     "seed:metrics": "tsx server/src/seed-metrics.ts",

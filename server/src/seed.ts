@@ -13,6 +13,7 @@ import Delivery from './features/deliveries/delivery.model.js';
 import Route from './features/routes/route.model.js';
 import Client from './features/clients/client.model.js';
 import CreditTransaction from './features/fiados/credit-transaction.model.js';
+import Settings from './features/settings/settings.model.js';
 
 const DAYS = 30;
 const MS_PER_DAY = 86400000;
@@ -113,7 +114,7 @@ const seed = async () => {
       lat: cdef.lat,
       lng: cdef.lng,
       status: 'pending',
-      type: 'delivery' as const,
+      type: ci % 2 === 0 ? 'detal' : 'mayor' as const,
       notes: cdef.notes,
       packagesCount: 1 + Math.floor(Math.random() * 5),
       paymentStatus: 'pending' as const,
@@ -125,6 +126,13 @@ const seed = async () => {
   }
 
   await Delivery.collection.insertMany(deliveriesForInsert);
+
+  // Create Settings document with default prices
+  await Settings.findOneAndUpdate(
+    {},
+    { prices: { mayor: 3500, detal: 4500 } },
+    { upsert: true }
+  );
 
   // ── Phase 4: 30 Routes (one per day, referencing the 14 deliveries) ──
   console.log('🛣️  Generando 30 rutas completadas (1 por día)...');
@@ -249,7 +257,7 @@ const seed = async () => {
   }
 
   // ── Summary ──
-  const estRevenue = totalPackages * 4000;
+  const estRevenue = totalPackages * 4000; // approximate — real revenue depends on per-delivery type
   const freqCounts = { high: 0, med: 0, low: 0, rare: 0 };
   clientDefs.forEach((c) => freqCounts[c.freq]++);
 

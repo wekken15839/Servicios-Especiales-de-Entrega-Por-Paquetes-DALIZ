@@ -1,1 +1,6 @@
-export const PRICE_PER_PACKAGE = 4000;
+import type { PriceTiers } from '../features/settings/settings.types.js';
+
+export const DEFAULT_PRICES: PriceTiers = {
+  mayor: 3500,
+  detal: 4500,
+};

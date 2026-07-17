@@ -1,5 +1,5 @@
 export type DeliveryStatus = 'pending' | 'in_transit' | 'delivered';
-export type DeliveryType = 'delivery' | 'warehouse' | 'client';
+export type DeliveryType = 'mayor' | 'detal';
 
 export interface IDeliveryResponse {
   id: string;

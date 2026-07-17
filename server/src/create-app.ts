@@ -15,6 +15,7 @@ import routesRoutes from './features/routes/routes.router.js';
 import metricsRoutes from './features/metrics/metrics.routes.js';
 import clientsRoutes from './features/clients/clients.router.js';
 import fiadosRoutes from './features/fiados/fiados.routes.js';
+import settingsRoutes from './features/settings/settings.routes.js';
 import { Env } from './shared/config/env.js';
 
 export function createApp(env: Env) {
@@ -68,6 +69,7 @@ export function createApp(env: Env) {
   app.use('/api/metrics', apiLimiter, metricsRoutes);
   app.use('/api/clients', apiLimiter, clientsRoutes);
   app.use('/api/fiados', apiLimiter, fiadosRoutes);
+  app.use('/api/settings', apiLimiter, settingsRoutes);
 
   // ---- Health check (no rate limit) ----
   app.get('/api/health', (_req, res) => {

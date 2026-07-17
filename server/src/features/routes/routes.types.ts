@@ -8,6 +8,7 @@ export interface IRouteWaypoint {
   visited: boolean;
   visitedAt?: string;
   packagesDelivered?: number;
+  revenue?: number;
   notes?: string;
 }
 

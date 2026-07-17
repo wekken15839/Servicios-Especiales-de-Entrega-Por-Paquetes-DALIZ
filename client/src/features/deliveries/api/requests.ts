@@ -7,6 +7,7 @@ export type CreateDeliveryRequest = {
   lat: number
   lng: number
   notes?: string
+  type?: 'mayor' | 'detal'
 }
 
 export type UpdateDeliveryStatusRequest = {

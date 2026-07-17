@@ -8,7 +8,8 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "seed": "tsx src/seed.ts",
-    "seed:metrics": "tsx src/seed-metrics.ts"
+    "seed:metrics": "tsx src/seed-metrics.ts",
+    "migrate:pricing": "tsx src/migrate-pricing.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

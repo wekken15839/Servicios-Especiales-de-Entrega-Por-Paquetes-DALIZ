@@ -10,7 +10,7 @@ export const mockDeliveries: DeliveryPoint[] = [
     lat: 8.3089,
     lng: -73.615,
     status: 'pending',
-    type: 'delivery',
+    type: 'detal',
     notes: 'Llamar antes de llegar',
   },
   {
@@ -22,7 +22,7 @@ export const mockDeliveries: DeliveryPoint[] = [
     lat: 8.3125,
     lng: -73.6102,
     status: 'in_transit',
-    type: 'delivery',
+    type: 'detal',
   },
   {
     id: 'del-003',
@@ -33,7 +33,7 @@ export const mockDeliveries: DeliveryPoint[] = [
     lat: 8.315,
     lng: -73.62,
     status: 'delivered',
-    type: 'delivery',
+    type: 'detal',
   },
   {
     id: 'del-004',
@@ -44,7 +44,7 @@ export const mockDeliveries: DeliveryPoint[] = [
     lat: 8.305,
     lng: -73.618,
     status: 'pending',
-    type: 'delivery',
+    type: 'detal',
     notes: 'Dejar en portería',
   },
   {
@@ -56,7 +56,7 @@ export const mockDeliveries: DeliveryPoint[] = [
     lat: 8.31,
     lng: -73.608,
     status: 'in_transit',
-    type: 'delivery',
+    type: 'detal',
   },
   {
     id: 'del-006',
@@ -67,7 +67,7 @@ export const mockDeliveries: DeliveryPoint[] = [
     lat: 8.3075,
     lng: -73.613,
     status: 'pending',
-    type: 'delivery',
+    type: 'detal',
   },
 ]
 

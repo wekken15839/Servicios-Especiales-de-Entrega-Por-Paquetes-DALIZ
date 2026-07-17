@@ -59,7 +59,7 @@ const seed = async () => {
     deliveryPoints.map((d, i) => ({
       ...d,
       status: i >= 18 ? 'pending' : 'delivered',
-      type: i === 18 ? 'warehouse' : i === 19 ? 'client' : 'delivery',
+      type: i === 18 ? 'mayor' : i === 19 ? 'detal' : i % 2 === 0 ? 'detal' : 'mayor',
       notes: i % 3 === 0 ? 'Llamar antes de llegar' : undefined,
     }))
   );
@@ -69,6 +69,7 @@ const seed = async () => {
   let totalPackages = 0;
   let totalVisited = 0;
   let totalWaypoints = 0;
+  let totalRevenue = 0;
 
   for (let d = 1; d <= 29; d++) {
     const day = new Date(2026, 5, d);
@@ -107,9 +108,12 @@ const seed = async () => {
           ? new Date(startedAt.getTime() + (i + 0.5) * minutesPerStop * 60000)
           : undefined;
         const pkgs = visited ? ((d * 13 + r * 7 + i * 11) % 5) + 1 : undefined;
+        const price = del.type === 'mayor' ? 3500 : 4500;
+        const revenue = pkgs ? pkgs * price : undefined;
 
         if (visited && pkgs) totalPackages += pkgs;
         if (visited) totalVisited++;
+        if (revenue) totalRevenue += revenue;
         totalWaypoints++;
 
         return {
@@ -120,6 +124,7 @@ const seed = async () => {
           visited,
           visitedAt,
           packagesDelivered: pkgs,
+          revenue,
         };
       });
 
@@ -146,7 +151,7 @@ const seed = async () => {
   console.log(`   Waypoints totales:     ${totalWaypoints}`);
   console.log(`   Waypoints visitados:   ${totalVisited}`);
   console.log(`   Paquetes entregados:   ${totalPackages}`);
-  console.log(`   Ingreso estimado:      $${(totalPackages * 4000).toLocaleString('es-CO')} COP`);
+  console.log(`   Ingreso estimado:      $${totalRevenue.toLocaleString('es-CO')} COP`);
   console.log(`\n   Credenciales:`);
   console.log(`   admin       -> admin / admin123`);
   console.log(`   repartidor  -> repartidor1 / 123456`);

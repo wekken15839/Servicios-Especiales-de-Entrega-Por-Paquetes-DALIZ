@@ -9,6 +9,7 @@
     "start": "node server/dist/server.js",
     "seed": "tsx server/src/seed.ts",
     "seed:metrics": "tsx server/src/seed-metrics.ts",
+    "migrate:pricing": "tsx server/src/migrate-pricing.ts",
     "lint": "pnpm --filter daliz-client lint"
   },
   "devDependencies": {

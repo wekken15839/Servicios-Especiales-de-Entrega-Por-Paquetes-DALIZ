@@ -8,7 +8,6 @@ import {
   IRevenueReal,
 } from './metrics.types.js';
 import { AppError } from '../../shared/errors/app-error.js';
-import { PRICE_PER_PACKAGE } from '../../shared/constants.js';
 import { getDebtSummary } from '../fiados/fiados.service.js';
 
 const formatLocalDate = (d: Date): string => {
@@ -51,6 +50,21 @@ const baseStats = () => ({
       },
     },
   },
+  totalRevenue: {
+    $sum: {
+      $reduce: {
+        input: '$waypoints',
+        initialValue: 0,
+        in: {
+          $cond: {
+            if: '$$this.visited',
+            then: { $add: ['$$value', { $ifNull: ['$$this.revenue', 0] }] },
+            else: '$$value',
+          },
+        },
+      },
+    },
+  },
   totalDistance: { $sum: { $ifNull: ['$totalDistance', 0] } },
   totalTimeToDeliver: {
     $sum: {
@@ -80,7 +94,7 @@ const buildBasePipeline = (userId: string, from: Date, to: Date) => [
 const computeSummaryFromAgg = (result: any, from: Date, to: Date): IMetricsSummary => {
   const r = result[0] || {
     totalRoutes: 0, totalActiveDuration: 0, totalDeliveriesScheduled: 0,
-    totalDeliveriesDelivered: 0, totalPackages: 0, totalDistance: 0,
+    totalDeliveriesDelivered: 0, totalPackages: 0, totalRevenue: 0, totalDistance: 0,
     totalTimeToDeliver: 0, routesWithTime: 0,
   };
 
@@ -91,7 +105,7 @@ const computeSummaryFromAgg = (result: any, from: Date, to: Date): IMetricsSumma
   const totalActiveMinutes = r.totalActiveDuration;
   const totalActiveHours = totalActiveMinutes / 60;
   const totalDistance = r.totalDistance || 0;
-  const totalRevenue = totalPackages * PRICE_PER_PACKAGE;
+  const totalRevenue = r.totalRevenue || 0;
 
   const avgPerRoute = totalRoutes > 0 ? Math.round((totalPackages / totalRoutes) * 10) / 10 : 0;
   const avgPerDeliveryPoint = totalDeliveriesDelivered > 0
@@ -178,12 +192,26 @@ export const getMetricsEvolution = async (
             },
           },
         },
+        totalRevenue: {
+          $reduce: {
+            input: '$waypoints',
+            initialValue: 0,
+            in: {
+              $cond: {
+                if: '$$this.visited',
+                then: { $add: ['$$value', { $ifNull: ['$$this.revenue', 0] }] },
+                else: '$$value',
+              },
+            },
+          },
+        },
       },
     },
     {
       $group: {
         _id: '$computedDate',
         packagesDelivered: { $sum: '$totalPackages' },
+        totalRevenue: { $sum: '$totalRevenue' },
         routesCompleted: { $sum: 1 },
         activeHours: {
           $sum: {
@@ -231,7 +259,7 @@ export const getMetricsEvolution = async (
   const revenueProjectedArr: number[] = [];
 
   for (const r of result) {
-    const projected = r.packagesDelivered * PRICE_PER_PACKAGE;
+    const projected = (r as any).totalRevenue || 0;
     revenue.push(projected);
     revenueProjectedArr.push(projected);
 
@@ -344,12 +372,14 @@ export const getRealRevenue = async (
       $group: {
         _id: null,
         totalDeliveries: { $sum: 1 },
+        totalRevenue: { $sum: { $ifNull: ['$waypoints.revenue', 0] } },
         deliveryIds: { $addToSet: '$waypoints.deliveryId' },
       },
     },
   ]);
 
   const totalDeliveries = routeResult.length > 0 ? routeResult[0].totalDeliveries : 0;
+  const revenueProjected = routeResult.length > 0 ? (routeResult[0].totalRevenue || 0) : 0;
   const deliveryIds: mongoose.Types.ObjectId[] = routeResult.length > 0
     ? routeResult[0].deliveryIds
     : [];
@@ -389,7 +419,6 @@ export const getRealRevenue = async (
   }
 
   const paidDeliveries = totalDeliveries - pendingDeliveries;
-  const revenueProjected = totalDeliveries * PRICE_PER_PACKAGE;
   const revenueReal = revenueProjected + totalPayments - totalCredits;
 
   return {

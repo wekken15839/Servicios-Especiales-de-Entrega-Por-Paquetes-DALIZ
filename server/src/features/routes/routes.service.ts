@@ -4,7 +4,7 @@ import Client from '../clients/client.model.js';
 import { updateDeliveryStatusBatch } from '../deliveries/deliveries.service.js';
 import { RouteStatus, IRouteResponse, IRouteAnalysis } from './routes.types.js';
 import { createCreditTransaction } from '../fiados/fiados.service.js';
-import { PRICE_PER_PACKAGE } from '../../shared/constants.js';
+import { getPrices } from '../settings/settings.service.js';
 import { AppError } from '../../shared/errors/app-error.js';
 
 function deg2rad(deg: number): number {
@@ -72,8 +72,9 @@ const formatRoute = (doc: IRouteDocument): IRouteResponse => ({
     deliveryId: wp.deliveryId.toString(),
     visited: wp.visited,
     visitedAt: wp.visitedAt?.toISOString(),
-    packagesDelivered: wp.packagesDelivered,
-    notes: wp.notes,
+      packagesDelivered: wp.packagesDelivered,
+      revenue: wp.revenue,
+      notes: wp.notes,
   })),
   totalDistance: doc.totalDistance,
   estimatedTime: doc.estimatedTime,
@@ -231,6 +232,14 @@ export const markWaypointVisited = async (
   waypoint.visited = true;
   waypoint.visitedAt = new Date();
   waypoint.packagesDelivered = packagesDelivered;
+
+  const delivery = await Delivery.findOne({ _id: deliveryId, userId });
+  if (delivery) {
+    const prices = await getPrices();
+    const price = prices[delivery.type] ?? prices.detal;
+    waypoint.revenue = (packagesDelivered ?? 1) * price;
+  }
+
   await doc.save();
 
   const finalPackagesCount = packagesCount ?? 1;
@@ -249,8 +258,9 @@ export const markWaypointVisited = async (
   // Credit transaction for unpaid packages
   if (finalPaymentStatus === 'pending') {
     const clientId = updatedDelivery.clientId?.toString();
-    // Use creditAmount if provided (already net of partial payment), else full amount
-    const amount = creditAmount ?? (finalPackagesCount * PRICE_PER_PACKAGE);
+    const amounts = await getPrices();
+    const deliveryPrice = amounts[updatedDelivery.type] ?? amounts.detal;
+    const amount = creditAmount ?? (finalPackagesCount * deliveryPrice);
 
     if (clientId && amount > 0) {
       await createCreditTransaction(clientId, userId, amount, deliveryId);

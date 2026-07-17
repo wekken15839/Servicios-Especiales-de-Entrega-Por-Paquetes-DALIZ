@@ -34,8 +34,8 @@ const deliverySchema = new Schema<IDeliveryDocument>(
     },
     type: {
       type: String,
-      enum: ['delivery', 'warehouse', 'client'],
-      default: 'delivery',
+      enum: ['mayor', 'detal'],
+      default: 'detal',
     },
     notes: { type: String },
     packagesCount: { type: Number, default: 1 },

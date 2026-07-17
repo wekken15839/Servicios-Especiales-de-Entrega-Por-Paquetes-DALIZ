@@ -4,7 +4,7 @@
 
 export type DeliveryStatus = 'pending' | 'in_transit' | 'delivered';
 
-export type DeliveryType = 'delivery' | 'warehouse' | 'client';
+export type DeliveryType = 'mayor' | 'detal';
 
 export interface Delivery {
   id: string;
@@ -33,6 +33,7 @@ export interface CreateDeliveryRequest {
   lat: number;
   lng: number;
   notes?: string;
+  type?: DeliveryType;
 }
 
 export interface UpdateDeliveryStatusRequest {

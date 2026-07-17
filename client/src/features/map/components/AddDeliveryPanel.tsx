@@ -3,11 +3,12 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod/v4'
 import { motion } from 'motion/react'
-import { MapPin, User, Phone, FileText, ExternalLink, Loader2 } from 'lucide-react'
+import { MapPin, User, Phone, FileText, ExternalLink, Loader2, Tag } from 'lucide-react'
 import { Button } from '@/shared/components/ui/button'
 import { Input } from '@/shared/components/ui/input'
 import { Label } from '@/shared/components/ui/label'
 import { Textarea } from '@/shared/components/ui/textarea'
+import { Select } from '@/shared/components/ui/select'
 import { Sheet } from '@/shared/components/Sheet'
 import { useMapStore } from '../store/mapStore'
 import { cn } from '@/shared/lib/utils'
@@ -17,9 +18,10 @@ const createDeliverySchema = z.object({
   clientPhone: z.string().optional(),
   address: z.string().min(1, 'La dirección es obligatoria'),
   notes: z.string().optional(),
+  type: z.enum(['mayor', 'detal']).default('detal'),
 })
 
-type CreateDeliveryFormData = z.infer<typeof createDeliverySchema>
+type CreateDeliveryFormData = z.input<typeof createDeliverySchema>
 
 const itemVariants = {
   hidden: { opacity: 0, y: 12 },
@@ -47,6 +49,7 @@ export function AddDeliveryPanel() {
       clientPhone: '',
       address: '',
       notes: '',
+      type: 'detal',
     },
   })
 
@@ -178,10 +181,25 @@ export function AddDeliveryPanel() {
           )}
         </motion.div>
 
+        <motion.div custom={5} initial="hidden" animate="visible" variants={itemVariants} className="space-y-2">
+          <Label htmlFor="type" className="text-cyan-400">Tipo de entrega</Label>
+          <div className="relative">
+            <Tag className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-cyan-400 pointer-events-none" />
+            <Select
+              id="type"
+              className={cn('pl-9 text-cyan-50')}
+              {...register('type')}
+            >
+              <option value="detal">De Tal — $4.500 / paquete</option>
+              <option value="mayor">Al Por Mayor — $3.500 / paquete</option>
+            </Select>
+          </div>
+        </motion.div>
+
         </div>
 
         <div className="sticky bottom-0 shrink-0 border-t border-border bg-background p-5">
-        <motion.div custom={5} initial="hidden" animate="visible" variants={itemVariants} className="flex gap-3">
+        <motion.div custom={6} initial="hidden" animate="visible" variants={itemVariants} className="flex gap-3">
           <Button
             type="button"
             variant="outline"

@@ -71,7 +71,7 @@ const seed = async () => {
       lat: wp.lat,
       lng: wp.lng,
       status: 'pending' as const,
-      type: 'delivery' as const,
+      type: 'detal' as const,
     }))
   );
 

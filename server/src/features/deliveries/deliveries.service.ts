@@ -53,6 +53,7 @@ export const createDelivery = async (
     lat: number;
     lng: number;
     notes?: string;
+    type?: string;
   }
 ): Promise<IDeliveryResponse> => {
   let clientId = data.clientId || null;
@@ -91,6 +92,7 @@ export const createDelivery = async (
     lat: data.lat,
     lng: data.lng,
     notes: data.notes,
+    type: data.type || 'detal',
     userId,
     clientId,
   });

@@ -30,6 +30,7 @@ export const createDeliverySchema = z.object({
   lat: z.number().min(-90).max(90),
   lng: z.number().min(-180).max(180),
   notes: z.string().optional(),
+  type: z.enum(['mayor', 'detal']).default('detal'),
 });
 
 export const createRouteSchema = z.object({

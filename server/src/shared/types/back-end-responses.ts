@@ -8,7 +8,7 @@
 
 export type DeliveryStatus = 'pending' | 'in_transit' | 'delivered';
 
-export type DeliveryType = 'delivery' | 'warehouse' | 'client';
+export type DeliveryType = 'mayor' | 'detal';
 
 export type RouteStatus = 'draft' | 'in_progress' | 'paused' | 'completed';
 

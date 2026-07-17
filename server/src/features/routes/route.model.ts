@@ -9,6 +9,7 @@ export interface IRouteWaypointDoc {
   visited: boolean;
   visitedAt?: Date;
   packagesDelivered?: number;
+  revenue?: number;
   notes?: string;
 }
 
@@ -39,6 +40,7 @@ const routeWaypointSchema = new Schema<IRouteWaypointDoc>(
     visited: { type: Boolean, default: false },
     visitedAt: { type: Date },
     packagesDelivered: { type: Number },
+    revenue: { type: Number },
     notes: { type: String },
   },
   { _id: false }

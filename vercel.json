@@ -1,5 +1,5 @@
 {
   "buildCommand": "pnpm --filter daliz-server build",
   "installCommand": "pnpm install --frozen-lockfile",
-  "outputDirectory": "server/dist"
+  "framework": null
 }

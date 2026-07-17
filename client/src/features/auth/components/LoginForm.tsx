@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '@/shared/components/ui/button'
 import { Input } from '@/shared/components/ui/input'
 import { Label } from '@/shared/components/ui/label'
@@ -76,13 +76,6 @@ export function LoginForm() {
       <Button type="submit" className="w-full" disabled={isLoading}>
         {isLoading ? 'Iniciando sesión...' : 'Iniciar sesión'}
       </Button>
-
-      <p className="text-center text-sm text-muted-foreground">
-        ¿No tienes cuenta?{' '}
-        <Link to="/register" className="font-medium text-primary hover:underline">
-          Regístrate
-        </Link>
-      </p>
     </form>
   )
 }
